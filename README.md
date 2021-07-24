@@ -1,4 +1,4 @@
-Mac Keystroke Data Parser
+#Mac Keystroke Data Parser
 Parsing my keystroke data for statistics about which keys I use the most.
 
 You will need to use the keylogger created at https://github.com/caseyscarborough/keylogger.
