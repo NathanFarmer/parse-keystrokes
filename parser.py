@@ -14,16 +14,44 @@ if __name__ == '__main__':
     
     # read in the logged keystrokes
     with open (config['log_file_path'], 'r') as log_file:
-        log_data = log_file.readlines()
+        log_data = log_file.read().splitlines()
 
-    # get rid of the keylogging message, timestamps, and newline characters
-    # also join the items in the list to make a single string
+    # join the items in the list to make a single string
     # also convert characters to the same case
-    key_data = ''.join([s for s in log_data if '\n' not in s]).upper()
+    key_data = ''.join(log_data).upper()
+
+    # remove the keylogger message and timestamp
+    key_data_cleaned = re.sub(r'KEYLOGGING HAS BEGUN.[A-Z]{3} [A-Z]{3} [0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2} [0-9]{4}', '', key_data)
+
+    print(key_data_cleaned)
 
     # each character is one item in a list
     # but the modifiers are encapsulated by [] so we will treat them as a single token
-    key_tokens = re.findall('\[.*?\]|\w', key_data)
+    #key_tokens = re.findall('\[.*?\]|\w', key_data_cleaned)
+    key_tokens = []
+    idx = 0
+    while True:
+        c = key_data[idx]
+        if c != '[':
+            idx += 1
+            key_tokens.append(c)  #Append if not [
+        else:
+            closingIndex = key_data[idx+1:].find(']') # find if ] exist after current [
+            if closingIndex == -1:
+                #append the rest sub-srting and break since no ] after current [
+                key_tokens.extend(key_data[idx:])
+                break
+            else:
+                # Check if [ in the  middle, append only c if True
+                if '[' in key_data[idx+1:idx+closingIndex+2]:
+                    key_tokens.append(c)
+                    idx += 1
+                else:
+                    #Extend from [ to the nearest ]
+                    key_tokens.append(key_data[idx:idx+closingIndex+2])
+                    idx += closingIndex+2
+        if idx>=len(key_data): break  #Break loop if idx exceeds maximum value
+
     total_tokens = len(key_tokens)
 
     # count the frequency of each token
