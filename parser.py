@@ -1,4 +1,6 @@
 import yaml
+import re
+from collections import Counter
 
 if __name__ == '__main__':
     '''This file will parse keystrokes and return stats about your most used keys.'''
@@ -16,6 +18,22 @@ if __name__ == '__main__':
 
     # get rid of the keylogging message, timestamps, and newline characters
     # also join the items in the list to make a single string
-    key_data = ''.join([s for s in log_data if '\n' not in s])
+    # also convert characters to the same case
+    key_data = ''.join([s for s in log_data if '\n' not in s]).upper()
 
-    print(key_data)
+    # each character is one item in a list
+    # but the modifiers are encapsulated by [] so we will treat them as a single token
+    key_tokens = re.findall('\[.*?\]|\w', key_data)
+    total_tokens = len(key_tokens)
+
+    # count the frequency of each token
+    token_freq = Counter(key_tokens)
+    
+    # normalize the frequencies
+    for key in token_freq:
+        token_freq[key] /= total_tokens
+
+    sorted_token_freq = sorted(token_freq.items(), key=lambda pair: pair[1])
+    for t in sorted_token_freq:
+        print(t)
+
