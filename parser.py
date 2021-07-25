@@ -63,9 +63,16 @@ if __name__ == '__main__':
         token_freq[key] /= total_tokens
 
     sorted_token_freq = sorted(token_freq.items(), key=lambda pair: pair[1])
-    for t in sorted_token_freq:
-        print(t)
+    scale_factor = 5 / max(token_freq.values())
 
+    scaled_token_freq = {}
+    for t in sorted_token_freq:
+        value = t[1] * scale_factor
+        scaled_token_freq[t[0]] = value 
+
+    for k, v in scaled_token_freq.items():
+        print(f'{k}: {v}')
+    
     with open('./results.json', 'w') as results_file:
-        json.dump(sorted_token_freq, results_file)
+        json.dump(scaled_token_freq, results_file)
 
