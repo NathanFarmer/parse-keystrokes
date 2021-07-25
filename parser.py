@@ -1,6 +1,7 @@
 import yaml
 import re
 from collections import Counter
+import json
 
 if __name__ == '__main__':
     '''This file will parse keystrokes and return stats about your most used keys.'''
@@ -13,7 +14,7 @@ if __name__ == '__main__':
             print(exc)
     
     # read in the logged keystrokes
-    with open (config['log_file_path'], 'r') as log_file:
+    with open(config['log_file_path'], 'r') as log_file:
         log_data = log_file.read().splitlines()
 
     # join the items in the list to make a single string
@@ -34,23 +35,23 @@ if __name__ == '__main__':
         c = key_data[idx]
         if c != '[':
             idx += 1
-            key_tokens.append(c)  #Append if not [
+            key_tokens.append(c)  # append if not [
         else:
-            closingIndex = key_data[idx+1:].find(']') # find if ] exist after current [
-            if closingIndex == -1:
-                #append the rest sub-srting and break since no ] after current [
+            closing_index = key_data[idx+1:].find(']') # find if ] exist after current [
+            if closing_index == -1:
+                # append the rest sub-srting and break since no ] after current [
                 key_tokens.extend(key_data[idx:])
                 break
             else:
-                # Check if [ in the  middle, append only c if True
-                if '[' in key_data[idx+1:idx+closingIndex+2]:
+                # check if [ in the  middle, append only c if True
+                if '[' in key_data[idx+1:idx+closing_index+2]:
                     key_tokens.append(c)
                     idx += 1
                 else:
-                    #Extend from [ to the nearest ]
-                    key_tokens.append(key_data[idx:idx+closingIndex+2])
-                    idx += closingIndex+2
-        if idx>=len(key_data): break  #Break loop if idx exceeds maximum value
+                    # extend from [ to the nearest ]
+                    key_tokens.append(key_data[idx:idx+closing_index+2])
+                    idx += closing_index+2
+        if idx>=len(key_data): break  # break loop if idx exceeds maximum value
 
     total_tokens = len(key_tokens)
 
@@ -64,4 +65,7 @@ if __name__ == '__main__':
     sorted_token_freq = sorted(token_freq.items(), key=lambda pair: pair[1])
     for t in sorted_token_freq:
         print(t)
+
+    with open('./results.json', 'w') as results_file:
+        json.dump(sorted_token_freq, results_file)
 
