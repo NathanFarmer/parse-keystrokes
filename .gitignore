@@ -129,3 +129,4 @@ dmypy.json
 .pyre/
 
 # Results of running the script
+results.json
