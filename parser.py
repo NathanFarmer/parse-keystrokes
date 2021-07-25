@@ -24,8 +24,6 @@ if __name__ == '__main__':
     # remove the keylogger message and timestamp
     key_data_cleaned = re.sub(r'KEYLOGGING HAS BEGUN.[A-Z]{3} [A-Z]{3} [0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2} [0-9]{4}', '', key_data)
 
-    print(key_data_cleaned)
-
     # each character is one item in a list
     # but the modifiers are encapsulated by [] so we will treat them as a single token
     #key_tokens = re.findall('\[.*?\]|\w', key_data_cleaned)
