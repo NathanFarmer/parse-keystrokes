@@ -62,9 +62,8 @@ if __name__ == '__main__':
     for key in token_freq:
         token_freq[key] /= total_tokens
 
-    scale_categories = 10
     sorted_token_freq = sorted(token_freq.items(), key=lambda pair: pair[1])
-    scale_factor = scale_categories / max(token_freq.values())
+    scale_factor = config['scale_categories'] / max(token_freq.values())
 
     scaled_token_freq = {}
     for t in sorted_token_freq:

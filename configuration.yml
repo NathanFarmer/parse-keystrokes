@@ -4,4 +4,6 @@ log_file_path: '/var/log/keystroke.log'
 # do you want the parser to consider multiple presses and holding down keys
 # as they are recorded (true) or as one keystroke (false)
 count_multipresses: true
+# number of categories to scale the results to
+scale_categories: 10
 
