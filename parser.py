@@ -2,6 +2,7 @@ import yaml
 import re
 from collections import Counter
 import json
+from prettytable import PrettyTable
 
 if __name__ == '__main__':
     '''This file will parse keystrokes and return stats about your most used keys.'''
@@ -55,22 +56,31 @@ if __name__ == '__main__':
 
     # count the frequency of each token
     token_freq = Counter(key_tokens)
-    
+    sorted_token_freq = sorted(token_freq.items(), key=lambda pair: pair[1], reverse=True)
+
+    # print the frequency
+    t = PrettyTable(['Key', 'Count'])
+    for key, value in sorted_token_freq:
+        t.add_row([key, value])
+    print(t)
+
     # normalize the frequencies
     for key in token_freq:
         token_freq[key] /= total_tokens
 
-    sorted_token_freq = sorted(token_freq.items(), key=lambda pair: pair[1])
+    sorted_token_freq = sorted(token_freq.items(), key=lambda pair: pair[1], reverse=True)
     scale_factor = config['scale_categories'] / max(token_freq.values())
 
     scaled_token_freq = {}
-    for t in sorted_token_freq:
-        value = t[1] * scale_factor
-        scaled_token_freq[t[0]] = value 
+    for token in sorted_token_freq:
+        value = token[1] * scale_factor
+        scaled_token_freq[token[0]] = {'scaled_frequency': value, 'proportion': token[1]}
 
-    for k, v in scaled_token_freq.items():
-        print(f'{k}: {v}')
+    # print the scaled frequency
+    t = PrettyTable(['Key', 'Scaled Frequency', 'Proportion'])
+    for key, value in scaled_token_freq.items():
+        t.add_row([key, value['scaled_frequency'], value['proportion']])
+    print(t)
     
     with open('./results.json', 'w') as results_file:
         json.dump(scaled_token_freq, results_file)
-
