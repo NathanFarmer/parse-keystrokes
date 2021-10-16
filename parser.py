@@ -27,7 +27,6 @@ if __name__ == '__main__':
 
     # each character is one item in a list
     # but the modifiers are encapsulated by [] so we will treat them as a single token
-    #key_tokens = re.findall('\[.*?\]|\w', key_data_cleaned)
     key_tokens = []
     idx = 0
     while True:
@@ -52,7 +51,9 @@ if __name__ == '__main__':
                     idx += closing_index+2
         if idx>=len(key_data): break  # break loop if idx exceeds maximum value
 
-    total_tokens = len(key_tokens)
+    # still this logic isn't perfect because you can type with the [] in real life
+    # so we will only use acceptable tokens
+    acceptable_tokens = []
 
     # count the frequency of each token
     token_freq = Counter(key_tokens)
@@ -65,6 +66,7 @@ if __name__ == '__main__':
     print(t)
 
     # normalize the frequencies
+    total_tokens = len(key_tokens)
     for key in token_freq:
         token_freq[key] /= total_tokens
 
