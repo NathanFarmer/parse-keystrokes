@@ -62,7 +62,7 @@ if __name__ == "__main__":
 
     # still this logic isn't perfect because you can type with the [] in real life
     # so we will only use acceptable tokens as defined by the keyboard layout
-    input_keyboard = Keyboard(key_set=75)
+    input_keyboard = Keyboard(config["input_key_set"])
 
     # count the frequency of each token
     token_freq = Counter(key_tokens)
