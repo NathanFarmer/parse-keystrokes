@@ -1,6 +1,8 @@
 # the location of the file with the logged keystrokes
 log_file_path: '/var/log/keystroke.log'
 # log_file_path: '/Users/nathanfarmer/parse-keystrokes/example.log'
+# keyboard percentage for the logged keystrokes
+input_keyboard: 75
 # do you want the parser to consider multiple presses and holding down keys
 # as they are recorded (true) or as one keystroke (false)
 count_multipresses: true

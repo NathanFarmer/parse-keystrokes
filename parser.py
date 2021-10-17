@@ -3,13 +3,8 @@ import re
 from collections import Counter
 
 import yaml
+from keyboard import Keyboard
 from prettytable import PrettyTable
-
-
-class Keyboard:
-    def __init__(self, key_set):
-        self.key_set = key_set
-
 
 if __name__ == "__main__":
     """This file will parse keystrokes and return stats about your most used keys."""
@@ -66,30 +61,8 @@ if __name__ == "__main__":
             break  # break loop if idx exceeds maximum value
 
     # still this logic isn't perfect because you can type with the [] in real life
-    # so we will only use acceptable tokens
-    acceptable_tokens = [
-        "[DEL]",
-        "[RIGHT]",
-        " ",
-        "E",
-        "T",
-        "A",
-        "[LEFT]",
-        "[RETURN]",
-        "S",
-        "C",
-        "I",
-        "R",
-        "O",
-        "L",
-        "N",
-        "[DOWN]",
-        "[LEFT-CMD]",
-        "D",
-        "P",
-        "M",
-    ]
-    input_keyboard = Keyboard(acceptable_tokens)
+    # so we will only use acceptable tokens as defined by the keyboard layout
+    input_keyboard = Keyboard(key_set=75)
 
     # count the frequency of each token
     token_freq = Counter(key_tokens)
