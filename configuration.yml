@@ -1,6 +1,6 @@
 # the location of the file with the logged keystrokes
-log_file_path: '/var/log/keystroke.log'
-# log_file_path: '/Users/nathanfarmer/parse-keystrokes/example.log'
+log_file_path: /Users/nathanfarmer/keystroke_analysis/keystrokes.log
+# log_file_path: /Users/nathanfarmer/keystroke_analysis/parse-keystrokes/example.log
 # keyboard percentage for the logged keystrokes
 input_key_set: 75
 # do you want the parser to consider multiple presses and holding down keys
