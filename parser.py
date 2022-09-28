@@ -76,6 +76,9 @@ if __name__ == "__main__":
         t.add_row([key, value])
     print(t)
 
+    with open("./count.json", "w") as results_file:
+        json.dump(sorted_token_freq, results_file)
+
     # normalize the frequencies
     total_tokens = len(key_tokens)
     for key in token_freq:
@@ -100,5 +103,5 @@ if __name__ == "__main__":
         t.add_row([key, value["scaled_frequency"], value["proportion"]])
     print(t)
 
-    with open("./results.json", "w") as results_file:
+    with open("./proportion.json", "w") as results_file:
         json.dump(scaled_token_freq, results_file)
