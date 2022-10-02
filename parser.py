@@ -69,15 +69,16 @@ if __name__ == "__main__":
     sorted_token_freq = sorted(
         token_freq.items(), key=lambda pair: pair[1], reverse=True
     )
+    filtered_token_freq = [(key, count) for key, count in sorted_token_freq if key in input_keyboard.key_tokens()]
 
     # print the frequency
     t = PrettyTable(["Key", "Count"])
-    for key, value in sorted_token_freq:
+    for key, value in filtered_token_freq:
         t.add_row([key, value])
     print(t)
 
     with open("./count.json", "w") as results_file:
-        json.dump(sorted_token_freq, results_file)
+        json.dump(filtered_token_freq, results_file)
 
     # normalize the frequencies
     total_tokens = len(key_tokens)
@@ -87,10 +88,11 @@ if __name__ == "__main__":
     sorted_token_freq = sorted(
         token_freq.items(), key=lambda pair: pair[1], reverse=True
     )
+    filtered_token_freq = [(key, count) for key, count in sorted_token_freq if key in input_keyboard.key_tokens()]
     scale_factor = config["scale_categories"] / max(token_freq.values())
 
     scaled_token_freq = {}
-    for token in sorted_token_freq:
+    for token in filtered_token_freq:
         value = token[1] * scale_factor
         scaled_token_freq[token[0]] = {
             "scaled_frequency": value,
